@@ -8,26 +8,29 @@ prices = [100, 110, 99]
 prices.append(108)
 prices.append(105)
 # append adds an item to the end of a list.
-
+#creating a function for validating the prices to avoid messy code in each def function
+def validate_prices(prices):
+        if len(prices) < 2:
+          raise ValueError("At least two prices are required.")
+        
+        for price in prices:
+         if not isinstance(price, (int,float)):
+            raise ValueError("All prices must be numbers.")
+        
+        if not math.isfinite(price):
+            raise ValueError("All prices must be finite")
+        
+        if price <= 0:
+            raise ValueError("All prices must be greater than zero")
+validate_prices(prices)
+   
 
 def calculate_returns(prices):
     # if statement in handling invalid inputs, checking the list of prices is too short
-    if len(prices) < 2:
-        raise ValueError("At least two prices are required.")
-
+    validate_prices(prices)
+    
     # making the prices in the list of prices are greater than zero
     # Price checking Loop using isinstance() to check whether a value belongs to a particular data type
-    for price in prices:
-        if not isinstance(price, (int, float)):
-            raise ValueError("All prices must be numbers.")
-
-        # rejecting infinity and NaN
-        if not math.isfinite(price):
-            raise ValueError("All prices must be finite.")
-
-        if price <= 0:
-            raise ValueError("All prices must be greater than zero.")
-
     returns = []
 
     for i in range(1, len(prices)):
@@ -44,6 +47,7 @@ for stock_return in returns:
 
 
 def calculate_overall_returns(prices):
+    validate_prices(prices)
     returns = prices[-1] / prices[0] - 1
     return returns
 
@@ -53,6 +57,7 @@ overall_return = calculate_overall_returns(prices)
 
 # Defining the final calculations
 def calculate_final_value(prices, initial_investment):
+    validate_prices(prices)
     # validating initial investment similar to the prices in prices
     if not isinstance(initial_investment, (float, int)):
         raise ValueError("The initial investment must be a number.")
